@@ -35,10 +35,14 @@ export default function App() {
   function withdraw(value) {
     if (!value) return alertMessage("Please input the amount to withdraw");
     if (!balance) return alertMessage("Your account has no money");
-    if (balance - value < loan)
-      return alertMessage(
-        "Insufficient funds due to existing loan. Please repay the loan first."
-      );
+    if (loan) {
+      if (balance - value < loan)
+        return alertMessage(
+          "Insufficient funds due to existing loan. Please repay the loan first."
+        );
+    }
+    if (balance < value)
+      return alertMessage("Insufficient balance. Please add funds to proceed.");
     dispatch({ type: "withdraw", payload: Number(value) });
     setValue("");
   }
